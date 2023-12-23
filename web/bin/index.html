@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Gundb live example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <!-- this is header -->
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Gundb</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <textarea id="output" cols="30" rows="10"></textarea>
+    </div>
+    <script>
+        gun = GUN();
+
+        gun.get('mark').put({
+            name: "Mark",
+            email: "mark@gun.eco",
+        });
+
+        gun.get('mark').on((data, key) => {
+            //console.log("realtime updates:", data);
+            var x = data.name + ', ' + data.email + '\n' + $('#output').val();
+            $('#output').val(x);
+        });
+
+        setInterval(() => { gun.get('mark').get('live').put(Math.random()) }, 9);
+    </script>
+</body>
+
+</html>
